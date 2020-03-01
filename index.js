@@ -12,7 +12,7 @@ const path = require('path')
 //connect to db
 mongoose.connect(
   dbURI,
-  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
+  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false },
   () => console.log('connected to DB')
 )
 

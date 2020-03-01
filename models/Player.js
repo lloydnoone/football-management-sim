@@ -6,9 +6,12 @@ const playerSchema = new mongoose.Schema({
   weight: { type: Number, required: true },
   age: { type: Number, required: true },
   agent: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  currentClub: { type: String, required: false },
+  currentClub: { type: mongoose.Schema.Types.ObjectId, ref: 'Club' },
   league: { type: String, required: false },
-  contractEnd: { type: Date, required: false }
+  contractEnd: { type: Date, required: false },
+  type: { type: String, required: false },
+  price: { type: Number, required: false },
+  matchBonus: { type: Number, required: false }
 }, {
   timestamps: true
 })

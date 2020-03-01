@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
 
 const agentSchema = new mongoose.Schema({
-  players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  transfers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Transfer' }]
+  players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 }, {
   timestamps: true
 })
