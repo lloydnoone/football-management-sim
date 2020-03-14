@@ -10,6 +10,7 @@ const discussions = require('../controllers/discussions')
 const comments = require('../controllers/comments')
 const chats = require('../controllers/chats')
 const messages = require('../controllers/messages')
+const offers = require('../controllers/offers')
 const secureRoute = require('../lib/secureRoute')
 
 // BASIC AUTH
@@ -90,7 +91,7 @@ router.route('/player/:playerid/in/:model/:modelid')
   .post(transfers.addPlayerTo)
   .delete(transfers.removePlayerFrom)
 
-router.route('/player/:playerid/from/:currentclub/to/:nextclub')
+router.route('transfer/player/:playerid/from/:currentclub/to/:nextclub')
   .post(transfers.transfer)
 
 //FORUM ROUTES
@@ -138,5 +139,17 @@ router.route('/users/:id/chats')
 
 router.route('/users/:id/discussions')
   .get(discussions.getUsersDiscussions)
+
+//OFFER ROUTES
+router.route('/offer/player/:playerid/from/:currentclub/to/:nextclub')
+  .post(offers.sendOffer)
+
+router.route('/offers/:id')
+  .get(offers.getOffer)
+  .put(offers.updateOffer)
+  .delete(offers.deleteOffer)
+
+router.route('/offers')
+  .get(offers.getOffers)
 
 module.exports = router

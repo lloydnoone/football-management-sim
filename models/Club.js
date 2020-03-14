@@ -6,7 +6,8 @@ const clubSchema = new mongoose.Schema({
   players: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' }],
   officials: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Official' }],
   league: { type: String, required: false },
-  transfers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Transfer' }]
+  transfers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Transfer' }],
+  wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Users' }]
 }, {
   timestamps: true
 })

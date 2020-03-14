@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const transferSchema = new mongoose.Schema({
+const offerSchema = new mongoose.Schema({
   player: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   agent: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   official: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -13,4 +13,4 @@ const transferSchema = new mongoose.Schema({
   timestamps: true
 })
 
-module.exports = mongoose.model('Transfer', transferSchema)
+module.exports = mongoose.model('Offer', offerSchema)

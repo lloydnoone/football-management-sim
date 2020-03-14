@@ -30,20 +30,3 @@ module.exports = {
   getOfficials,
   updateOfficialData
 }
-
-//code for multiple population
-
-// OrderModel.find().populate([{
-//   path: 'user',
-//   model: 'User'
-// }, {
-//   path: 'meal',
-//   model: 'Meal'
-// }]).exec(function(err, order) {
-//   if(err) throw err;
-//   if(order) {
-//       // execute on order
-//       console.log(order.user.username); // prints user's username
-//       console.log(order.meal.value);    // you get the idea
-//   }
-// });
