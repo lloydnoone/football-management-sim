@@ -152,4 +152,9 @@ router.route('/offers/:id')
 router.route('/offers')
   .get(offers.getOffers)
 
+//WISHLIST ROUTES
+router.route('/wishlist/player/:playerid/in/:model/:modelid')
+  .post(transfers.addToWishlist)
+  .delete(transfers.removeFromWishlist)
+
 module.exports = router

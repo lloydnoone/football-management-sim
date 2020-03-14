@@ -249,8 +249,128 @@ function transfer(req, res) {
     .catch(err => res.json(err))
 }
 
+function addToWishlist(req, res) {
+  switch (req.params.model) {
+    case 'agent':
+      User
+        .findById(req.params.modelid)
+        .then(agent => {
+          if (!agent) return res.status(404).json({ message: 'User not found' })
+          if (!agent.agentData) return res.status(404).json({ message: 'agentData not found' })
+          User
+            .findById(req.params.playerid)
+            .then(player => {
+              if (!player) return res.status(404).json({ message: 'Player not found' })
+              agent.agentData.wishlist.push(player)
+              res.status(201).json(agent)
+              return agent.save()
+            })
+        })
+        .catch(err => res.json(err))
+      break
+
+    case 'official':
+      User
+        .findById(req.params.modelid)
+        .then(official => {
+          if (!official) return res.status(404).json({ message: 'User not found' })
+          if (!official.officialData) return res.status(404).json({ message: 'OfficialData not found' })
+          User
+            .findById(req.params.playerid)
+            .then(player => {
+              if (!player) return res.status(404).json({ message: 'Player not found' })
+              official.officialData.wishlist.push(player)
+              res.status(201).json(official)
+              return official.save()
+            })
+        })
+        .catch(err => res.json(err))
+      break
+
+    case 'club':
+      Club
+        .findById(req.params.modelid)
+        .then(club => {
+          if (!club) return res.status(404).json({ message: 'Club not found' })
+          User
+            .findById(req.params.playerid)
+            .then(player => {
+              if (!player) return res.status(404).json({ message: 'Player not found' })
+              club.wishlist.push(player)
+              res.status(201).json(club)
+              return club.save()
+            })
+        })
+        .catch(err => res.json(err))
+      break
+    default:
+      return res.status(404).json({ message: 'model not found' })
+  }
+}
+
+function removeFromWishlist(req, res) {
+  switch (req.params.model) {
+    case 'agent':
+      User
+        .findById(req.params.modelid)
+        .then(agent => {
+          if (!agent) return res.status(404).json({ message: 'User not found' })
+          if (!agent.agentData) return res.status(404).json({ message: 'agentData not found' })
+          User
+            .findById(req.params.playerid)
+            .then(player => {
+              if (!player) return res.status(404).json({ message: 'Player not found' })
+              agent.agentData.wishlist = agent.agentData.wishlist.filter(element => element._id === req.params.playerid)
+              res.status(201).json(agent)
+              return agent.save()
+            })
+        })
+        .catch(err => res.json(err))
+      break
+
+    case 'official':
+      User
+        .findById(req.params.modelid)
+        .then(official => {
+          if (!official) return res.status(404).json({ message: 'User not found' })
+          if (!official.officialData) return res.status(404).json({ message: 'OfficialData not found' })
+          User
+            .findById(req.params.playerid)
+            .then(player => {
+              if (!player) return res.status(404).json({ message: 'Player not found' })
+              official.officialData.wishlist = official.officialData.wishlist.filter(element => element._id === req.params.playerid)
+              res.status(201).json(official)
+              return official.save()
+            })
+        })
+        .catch(err => res.json(err))
+      break
+
+    case 'club':
+      Club
+        .findById(req.params.modelid)
+        .then(club => {
+          if (!club) return res.status(404).json({ message: 'Club not found' })
+          User
+            .findById(req.params.playerid)
+            .then(player => {
+              if (!player) return res.status(404).json({ message: 'Player not found' })
+              club.wishlist = club.wishlist.filter(element => element._id === req.params.playerid)
+              res.status(201).json(club)
+              return club.save()
+            })
+        })
+        .catch(err => res.json(err))
+      break
+    default:
+      return res.status(404).json({ message: 'model not found' })
+  }
+}
+
 module.exports = {
   addPlayerTo,
   removePlayerFrom,
-  transfer
+  transfer,
+  addToWishlist,
+  removeFromWishlist
 }
