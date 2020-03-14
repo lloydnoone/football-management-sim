@@ -1,25 +1,27 @@
 const router = require('express').Router()
-const users = require('../controllers/auth')
+const auth = require('../controllers/auth')
+const users = require('../controllers/users')
 const agents = require('../controllers/agents')
 const players = require('../controllers/players')
 const clubs = require('../controllers/clubs')
 const officials = require('../controllers/officials')
 const transfers = require('../controllers/transfers')
+const discussions = require('../controllers/discussions')
+const comments = require('../controllers/comments')
+const chats = require('../controllers/chats')
+const messages = require('../controllers/messages')
 const secureRoute = require('../lib/secureRoute')
 
 // BASIC AUTH
 
 router.route('/register')
-  .post(users.register)
-
-router.route('/register')
-  .post(users.register)
+  .post(auth.register)
 
 router.route('/login')
-  .post(users.login)
+  .post(auth.login)
 
 router.route('/profile')
-  .get(secureRoute, users.profile)
+  .get(secureRoute, auth.profile)
 
 router.route('/users')
   .get(users.getUsers)
@@ -28,6 +30,18 @@ router.route('/users/:id')
   .get(users.getUser)
   .delete(secureRoute, users.deleteUser)
   .put(secureRoute, users.updateUser)
+
+//CONNECTIONS ROUTES
+
+router.route('/connection-request/from/:fromUser/to/:toUser')
+  .put(users.acceptRequest)
+  .post(users.sendRequest)
+  .delete(users.deleteRequest)
+
+router.route('/connection/from/:fromUser/to/:toUser')
+  .delete(users.deleteConnection)
+
+
 
 //AGENT ROUTES
 
@@ -61,9 +75,6 @@ router.route('/clubs/:id')
   .put(clubs.updateClub)
   .delete(clubs.deleteClub)
 
-//router.route('/addplayertoclub/club/:clubId/player/:playerId')
-//.post(clubs.addPlayerToClub)
-
 //OFFICIAL ROUTES
 
 router.route('/officials')
@@ -74,10 +85,58 @@ router.route('/officials/:id')
 
 //TRANSFER ROUTES
 
-// router.route('/transfer/player/:playerId/agent/:agentId/from/:clubId/to/:clubId')
-//   .post(transfers.transferFromAgentToClub)
-
-router.route('/addplayer/:playerid/to/:model/:modelid')
+//ADD/REMOVE PLAYER ROUTES
+router.route('/player/:playerid/in/:model/:modelid')
   .post(transfers.addPlayerTo)
+  .delete(transfers.removePlayerFrom)
+
+router.route('/player/:playerid/from/:currentclub/to/:nextclub')
+  .post(transfers.transfer)
+
+//FORUM ROUTES
+
+//DISCUSSION ROUTES
+router.route('/discussions')
+  .post(secureRoute, discussions.createDiscussion)
+  .get(discussions.getDiscussions)
+
+router.route('/discussions/:id')
+  .delete(discussions.deleteDiscussion)
+  .put(discussions.updateDiscussion)
+  .get(discussions.getDiscussion)
+
+router.route('/discussions/:id/comments')
+  .post(secureRoute, comments.createComment)
+
+router.route('/discussions/:id/comments/:commentId')
+  .delete(secureRoute, comments.deleteComment)
+  .put(secureRoute, comments.updateComment)
+
+//CHAT ROUTES
+router.route('/chats')
+  .post(secureRoute, chats.createChat)
+  .get(chats.getChats)
+
+router.route('/chats/:id')
+  .get(chats.getChat)
+  .delete(chats.deleteChat)
+  .put(chats.updateChat)
+
+//MESSAGE ROUTES
+router.route('/chats/:id/messages')
+  .post(secureRoute, messages.createMessage)
+
+router.route('/chats/:id/messages/:messageId')
+  .delete(secureRoute, messages.deleteMessage)
+  .put(secureRoute, messages.updateMessage)
+
+router.route('/chats/:id/users/:userId')
+  .post(chats.addUserToChat)
+
+router.route('/users/:id/chats')
+  .get(chats.getUsersChats)
+
+router.route('/users/:id/discussions')
+  .get(discussions.getUsersDiscussions)
 
 module.exports = router

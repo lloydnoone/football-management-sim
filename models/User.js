@@ -17,7 +17,9 @@ const userSchema = new mongoose.Schema({
   agentData: Agent.schema, //{ type: mongoose.Schema.Types.ObjectId, ref: 'Agent' }, //
   playerData: Player.schema, //{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' },
   officialData: Official.schema,
-  connections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  connections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  connectionRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  sentRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 }, {
   timestamps: true
 })

@@ -34,50 +34,16 @@ function profile(req, res) {
     .populate('agentData.players')
     .populate('officialData.players')
     .populate('officialData.currentClub')
+    .populate('playerData.currentClub')
     .then(user => {
+      console.log(user)
       res.status(200).json(user)
     })
-    .catch(err => res.json(err))
-}
-
-function getUsers(req, res) {
-  User
-    .find({})
-    .then(users => res.status(200).json(users))
-    .catch(err => res.json(err))
-}
-
-function getUser(req, res) {
-  User
-    .findById(req.params.id)
-    .populate('connections')
-    .populate('agentData.players')
-    .then(user => res.status(200).json(user))
-    .catch(err => res.json(err))
-}
-
-function deleteUser(req, res) {
-  User
-    .findByIdAndRemove(req.params.id, () => res.sendStatus(204)) 
-    .catch(err => res.status(400).json(err)) 
-}
-
-function updateUser(req, res) {
-  User
-    .findByIdAndUpdate(
-      req.params.id, 
-      req.body,
-      { new: true }) // set this to get the updated copy instead of the old one.
-    .then(user => res.status(202).json(user))
     .catch(err => res.json(err))
 }
 
 module.exports = {
   register,
   login,
-  profile,
-  getUsers,
-  getUser,
-  deleteUser,
-  updateUser
+  profile
 }
