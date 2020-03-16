@@ -9,7 +9,7 @@ function register(req, res) {
       const token = jwt.sign( { sub: user._id }, secret, { expiresIn: '6h' } )
       res.status(201).json({ message: `Thanks for registering ${user.username}`, token })
     })
-    .catch(err => res.status(403).json({ message: 'user already registered', err: err }))
+    .catch(err => res.status(403).json(err))
 }
 
 //user supplies body of request - email and password

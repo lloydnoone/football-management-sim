@@ -5,21 +5,21 @@ const Agent = require('./Agent')
 const Official = require('./Official')
 
 const userSchema = new mongoose.Schema({
-  imageUrl: { type: String, required: false },
+  imageUrl: { type: String, required: false, default: null },
   username: { type: String, required: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  gender: { type: String, required: false },
-  nationality: { type: String, required: false },
+  gender: { type: String, required: false, default: 'not specified' },
+  nationality: { type: String, required: false, default: 'not specified' },
   transfers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Transfer' }],
-  agentData: Agent.schema, //{ type: mongoose.Schema.Types.ObjectId, ref: 'Agent' }, //
-  playerData: Player.schema, //{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' },
-  officialData: Official.schema,
-  connections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  connectionRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  sentRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  agentData: { type: Agent.schema, default: null }, //{ type: mongoose.Schema.Types.ObjectId, ref: 'Agent' }, //
+  playerData: { type: Player.schema, default: null }, //{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' },
+  officialData: { type: Official.schema, default: null },
+  connections: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] },
+  connectionRequests: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] },
+  sentRequests: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] }
 }, {
   timestamps: true
 })
