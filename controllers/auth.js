@@ -18,13 +18,13 @@ function login(req, res) {
     .findOne({ email: req.body.email }) // fond the user by that email
     .then(user => { // check to see if we find record and the password mathes the pass in the database
       if (!user || !user.validatePassword(req.body.password)) {
-        return res.status(401).json({ message: 'Unauthorized' })
+        return res.status(401).json({ message: 'Email and password does not match. ' })
       }
       // if its ok create a token baking in user id, secret to encode and expiry time
       const token = jwt.sign( { sub: user._id }, secret, { expiresIn: '6h' } )
       res.status(202).json({ userId: user._id, message: `Welcome Back ${user.username}`, token })
     })
-    .catch(() => res.status(401).json( { message: 'Unauthorized' } ))
+    .catch((err) => res.status(401).json(err))
 }
 
 function profile(req, res) {

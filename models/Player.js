@@ -10,7 +10,7 @@ const playerSchema = new mongoose.Schema({
   currentClub: { type: mongoose.Schema.Types.ObjectId, ref: 'Club' },
   league: { type: String, required: false, default: 'not specified' },
   contractEnd: { type: Date, required: false, default: null },
-  type: { type: String, required: true, default: 'not specified' },
+  type: { type: String, required: false, default: 'not specified' },
   price: { type: Number, required: false, default: null },
   matchBonus: { type: Number, required: false, default: null },
   goalBonus: { type: Number, required: false, default: null }
