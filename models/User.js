@@ -19,7 +19,9 @@ const userSchema = new mongoose.Schema({
   officialData: { type: Official.schema, default: null },
   connections: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] },
   connectionRequests: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] },
-  sentRequests: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] }
+  sentRequests: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] },
+  lastActivity: { type: String, required: false, default: 9999999999 },
+  serializedCreatedAt: { type: String, required: false, default: 9999999999 }
 }, {
   timestamps: true
 })

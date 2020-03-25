@@ -47,7 +47,10 @@ function sendRequest(req, res) {
           res.status(201).json({ message: 'friend request sent' })
         })
     })
-    .catch(err => res.json(err))
+    .catch(err => {
+      console.log(err)
+      res.status(500).json(err)
+    })
 }
 
 function deleteRequest(req, res) {
