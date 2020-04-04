@@ -6,6 +6,7 @@ const Official = require('./Official')
 
 const userSchema = new mongoose.Schema({
   imageUrl: { type: String, required: false, default: null },
+  userType: { type: String, required: true },
   username: { type: String, required: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
