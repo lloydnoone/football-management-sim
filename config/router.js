@@ -91,7 +91,7 @@ router.route('/player/:playerid/in/:model/:modelid')
   .post(transfers.addPlayerTo)
   .delete(transfers.removePlayerFrom)
 
-router.route('transfer/player/:playerid/from/:currentclub/to/:nextclub')
+router.route('/transfer/player/:playerid/from/:currentclub/to/:nextclub')
   .post(transfers.transfer)
 
 //FORUM ROUTES

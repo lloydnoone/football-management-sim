@@ -10,7 +10,22 @@ function getUsers(req, res) {
 function getUser(req, res) {
   User
     .findById(req.params.id)
-    .populate({ path: 'connections' })// .populate({ path: 'agentData.sentOffers' })
+    .populate([{
+      path: 'transfers',
+      model: 'Transfer',
+      populate: [{
+        path: 'player',
+        model: 'User',
+      },
+      {
+        path: 'from',
+        model: 'Club',
+      },
+      {
+        path: 'to',
+        model: 'Club',
+      }]
+    }])
     .then(user => res.status(200).json(user))
     .catch(err => res.json(err))
 }
