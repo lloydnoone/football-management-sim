@@ -8,7 +8,9 @@ const transferSchema = new mongoose.Schema({
   to: { type: mongoose.Schema.Types.ObjectId, ref: 'Club' },
   price: { type: Number, required: true },
   matchBonus: { type: Number, required: true },
-  goalBonus: { type: Number, required: true }
+  goalBonus: { type: Number, required: true },
+  type: { type: String, required: true },
+  fee: { type: Number, required: true }
 }, {
   timestamps: true
 })

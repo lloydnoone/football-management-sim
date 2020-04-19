@@ -20,8 +20,15 @@ function addPlayerTo(req, res) {
               res.status(201).json(agent)
               return agent.save()
             })
+            .catch(err => {
+              console.log(err)
+              res.json(err)
+            })
         })
-        .catch(err => res.json(err))
+        .catch(err => {
+          console.log(err)
+          res.json(err)
+        })
       break
 
     case 'official':
@@ -40,8 +47,15 @@ function addPlayerTo(req, res) {
               res.status(201).json(official)
               return official.save()
             })
+            .catch(err => {
+              console.log(err)
+              res.json(err)
+            })
         })
-        .catch(err => res.json(err))
+        .catch(err => {
+          console.log(err)
+          res.json(err)
+        })
       break
 
     case 'club':
@@ -60,7 +74,10 @@ function addPlayerTo(req, res) {
               return club.save()
             })
         })
-        .catch(err => res.json(err))
+        .catch(err => {
+          console.log(err)
+          res.json(err)
+        })
       break
     default:
       return res.status(404).json({ message: 'model not found' })
@@ -85,8 +102,15 @@ function removePlayerFrom(req, res) {
               res.status(201).json(agent)
               return agent.save()
             })
+            .catch(err => {
+              console.log(err)
+              res.json(err)
+            })
         })
-        .catch(err => res.json(err))
+        .catch(err => {
+          console.log(err)
+          res.json(err)
+        })
       break
 
     case 'official':
@@ -105,8 +129,15 @@ function removePlayerFrom(req, res) {
               res.status(201).json(official)
               return official.save()
             })
+            .catch(err => {
+              console.log(err)
+              res.json(err)
+            })
         })
-        .catch(err => res.json(err))
+        .catch(err => {
+          console.log(err)
+          res.json(err)
+        })
       break
 
     case 'club':
@@ -124,8 +155,15 @@ function removePlayerFrom(req, res) {
               res.status(201).json(club)
               return club.save()
             })
+            .catch(err => {
+              console.log(err)
+              res.json(err)
+            })
         })
-        .catch(err => res.json(err))
+        .catch(err => {
+          console.log(err)
+          res.json(err)
+        })
       break
     default:
       return res.status(404).json({ message: 'model not found' })
@@ -145,10 +183,9 @@ function transfer(req, res) {
             if (!nextclub) return res.status(404).json({ message: 'Next club not found' })
             //add to next club
             nextclub.players.push(player)
-            nextclub.save()
             // update player
             player.playerData.currentClub = nextclub
-            player.save()
+            //player.save() cant save more than once so wait until the end of transfer
             // record transfer data
             const transferData = {
               player: player,
@@ -158,7 +195,9 @@ function transfer(req, res) {
               to: nextclub,
               price: player.playerData.price,
               matchBonus: player.playerData.matchBonus,
-              goalBonus: player.playerData.goalBonus
+              goalBonus: player.playerData.goalBonus,
+              type: req.body.type,
+              fee: req.body.fee
             }
             Transfer
               .create(transferData)
@@ -172,6 +211,10 @@ function transfer(req, res) {
                     agent.transfers.push(newTransfer)
                     agent.save()
                   })
+                  .catch(err => {
+                    console.log(err)
+                    res.json(err)
+                  })
                 // add record of tansfer to official
                 User
                   .findById(player.playerData.official._id)
@@ -180,12 +223,27 @@ function transfer(req, res) {
                     official.transfers.push(newTransfer)
                     official.save()
                   })
+                  .catch(err => {
+                    console.log(err)
+                    res.json(err)
+                  })
                 //add record of transfer to player
                 player.transfers.push(newTransfer)
                 player.save()
+                // add to the next club
+                nextclub.transfers.push(newTransfer)
+                player.save()
                 res.status(201).json(newTransfer)
               })
+              .catch(err => {
+                console.log(err)
+                res.json(err)
+              })
             return
+          })
+          .catch(err => {
+            console.log(err)
+            res.json(err)
           })
       } else {
         Club
@@ -198,13 +256,11 @@ function transfer(req, res) {
                 if (!nextclub) return res.status(404).json({ message: 'Next club not found' })
                 //remove from current club
                 currentclub.players = currentclub.players.filter(element => element._id === req.params.playerid)
-                currentclub.save()
                 //add to next club
                 nextclub.players.push(player)
-                nextclub.save()
                 // update player
                 player.playerData.currentClub = nextclub
-                player.save()
+                //player.save() should only save once so wait until end of transfer
                 // record transfer data
                 const transferData = {
                   player: player,
@@ -214,7 +270,9 @@ function transfer(req, res) {
                   to: nextclub,
                   price: player.playerData.price,
                   matchBonus: player.playerData.matchBonus,
-                  goalBonus: player.playerData.goalBonus
+                  goalBonus: player.playerData.goalBonus,
+                  type: req.body.type,
+                  fee: req.body.fee
                 }
                 Transfer
                   .create(transferData)
@@ -239,6 +297,11 @@ function transfer(req, res) {
                     //add record of transfer to player
                     player.transfers.push(newTransfer)
                     player.save()
+                    // add to the clubs
+                    currentclub.transfers.push(newTransfer)
+                    currentclub.save()
+                    nextclub.transfers.push(newTransfer)
+                    nextclub.save()
                     res.status(201).json(newTransfer)
                   })
                 return

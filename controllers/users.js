@@ -11,19 +11,27 @@ function getUser(req, res) {
   User
     .findById(req.params.id)
     .populate([{
+      path: 'agentData.players',
+      model: 'User',
+      populate: {
+        path: 'playerData.currentClub',
+        model: 'Club'
+      }
+    }])
+    .populate([{
       path: 'transfers',
       model: 'Transfer',
       populate: [{
         path: 'player',
-        model: 'User',
+        model: 'User'
       },
       {
         path: 'from',
-        model: 'Club',
+        model: 'Club'
       },
       {
         path: 'to',
-        model: 'Club',
+        model: 'Club'
       }]
     }])
     .then(user => res.status(200).json(user))

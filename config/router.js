@@ -24,13 +24,13 @@ router.route('/login')
 router.route('/profile')
   .get(secureRoute, auth.profile)
 
-router.route('/users')
-  .get(users.getUsers)
-
 router.route('/users/:id')
   .get(users.getUser)
-  .delete(secureRoute, users.deleteUser)
+  .delete(users.deleteUser)
   .put(secureRoute, users.updateUser)
+
+router.route('/users')
+  .get(users.getUsers)
 
 //CONNECTIONS ROUTES
 

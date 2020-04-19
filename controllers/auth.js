@@ -53,10 +53,6 @@ function profile(req, res) {
   User
     .findById(req.currentUser._id)
     .populate('connections')
-    .populate('agentData.players')
-    .populate('officialData.players')
-    .populate('officialData.currentClub')
-    .populate('playerData.currentClub')
     .then(user => {
       console.log(user)
       res.status(200).json(user)
