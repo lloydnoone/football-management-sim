@@ -34,6 +34,14 @@ function getUser(req, res) {
         model: 'Club'
       }]
     }])
+    .populate([{
+      path: 'playerData.currentClub',
+      model: 'Club'
+    }])
+    .populate([{
+      path: 'officialData.currentClub',
+      model: 'Club'
+    }])
     .then(user => res.status(200).json(user))
     .catch(err => res.json(err))
 }

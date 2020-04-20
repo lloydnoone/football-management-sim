@@ -66,7 +66,9 @@ mongoose.connect(
             nationality: 'Argentinean',
             postCode: 'SG1 1BF',
             userType: 'Official',
-            officialData: {}
+            officialData: {
+              currentClub: clubs[2]
+            }
           },
           {
             firstName: 'Mr',
