@@ -21,8 +21,8 @@ const userSchema = new mongoose.Schema({
   connections: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] },
   connectionRequests: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] },
   sentRequests: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] },
-  lastActivity: { type: String, required: false, default: 9999999999 },
-  serializedCreatedAt: { type: String, required: false, default: 9999999999 },
+  lastActivity: { type: String, required: false, default: 3714552020 },
+  serializedCreatedAt: { type: String, required: false, default: 3714552020 },
   postCode: { type: String, required: true }
 }, {
   timestamps: true
