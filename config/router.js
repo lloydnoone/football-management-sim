@@ -11,6 +11,7 @@ const comments = require('../controllers/comments')
 const chats = require('../controllers/chats')
 const messages = require('../controllers/messages')
 const offers = require('../controllers/offers')
+const connectionRequests = require('../controllers/connectionRequests')
 const secureRoute = require('../lib/secureRoute')
 
 // BASIC AUTH
@@ -36,7 +37,7 @@ router.route('/users')
 
 router.route('/connection-request/from/:fromUser/to/:toUser')
   .put(users.acceptRequest)
-  .post(users.sendRequest)
+  .post(connectionRequests.sendRequest)
   .delete(users.deleteRequest)
 
 router.route('/connection/from/:fromUser/to/:toUser')

@@ -19,8 +19,8 @@ const userSchema = new mongoose.Schema({
   playerData: { type: Player.schema, default: null }, //{ type: mongoose.Schema.Types.ObjectId, ref: 'Player' },
   officialData: { type: Official.schema, default: null },
   connections: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] },
-  connectionRequests: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] },
-  sentRequests: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }], default: [] },
+  connectionRequests: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ConnectionRequest' }], default: [] },
+  sentRequests: { type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ConnectionRequest' }], default: [] },
   lastActivity: { type: String, required: false, default: 3714552020 },
   serializedCreatedAt: { type: String, required: false, default: 3714552020 },
   postCode: { type: String, required: true }

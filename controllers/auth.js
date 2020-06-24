@@ -58,10 +58,9 @@ function profile(req, res) {
     },
     {
       path: 'connectionRequests',
-      model: 'User'
+      model: 'ConnectionRequest'
     }])
     .then(user => {
-      console.log(user)
       res.status(200).json(user)
     })
     .catch(err => res.json(err))
