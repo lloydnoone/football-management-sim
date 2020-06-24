@@ -52,7 +52,14 @@ function login(req, res) {
 function profile(req, res) {
   User
     .findById(req.currentUser._id)
-    .populate('connections')
+    .populate([{
+      path: 'connections',
+      model: 'User'
+    },
+    {
+      path: 'connectionRequests',
+      model: 'User'
+    }])
     .then(user => {
       console.log(user)
       res.status(200).json(user)
