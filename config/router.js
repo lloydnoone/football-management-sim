@@ -36,9 +36,9 @@ router.route('/users')
 //CONNECTIONS ROUTES
 
 router.route('/connection-request/from/:fromUser/to/:toUser')
-  .put(users.acceptRequest)
+  .put(connectionRequests.acceptRequest)
   .post(connectionRequests.sendRequest)
-  .delete(users.deleteRequest)
+  .delete(connectionRequests.deleteRequest)
 
 router.route('/connection/from/:fromUser/to/:toUser')
   .delete(users.deleteConnection)

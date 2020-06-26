@@ -37,14 +37,74 @@ function sendRequest(req, res) {
 function deleteRequest(req, res) {
   User.
     findById(req.params.fromUser)
+    .populate([{
+      path: 'connections',
+      model: 'User'
+    },
+    {
+      path: 'connectionRequests',
+      model: 'ConnectionRequest',
+      populate: [{
+        path: 'fromUser',
+        model: 'User'
+      },
+      {
+        path: 'toUser',
+        model: 'User'
+      }]
+    },
+    {
+      path: 'sentRequests',
+      model: 'ConnectionRequest',
+      populate: [{
+        path: 'fromUser',
+        model: 'User'
+      },
+      {
+        path: 'toUser',
+        model: 'User'
+      }]
+    }])
     .then(fromUser => {
       if (!fromUser) return res.status(404).json({ message: 'fromUser not found' })
       User.
         findById(req.params.toUser)
+        .populate([{
+          path: 'connections',
+          model: 'User'
+        },
+        {
+          path: 'connectionRequests',
+          model: 'ConnectionRequest',
+          populate: [{
+            path: 'fromUser',
+            model: 'User'
+          },
+          {
+            path: 'toUser',
+            model: 'User'
+          }]
+        },
+        {
+          path: 'sentRequests',
+          model: 'ConnectionRequest',
+          populate: [{
+            path: 'fromUser',
+            model: 'User'
+          },
+          {
+            path: 'toUser',
+            model: 'User'
+          }]
+        }])
         .then(toUser => {
           if (!toUser) return res.status(404).json({ message: 'toUser not found' })
-          toUser.connectionRequests = toUser.connectionRequests.filter(element => element._id === req.params.fromUser)
-          fromUser.sentRequests = fromUser.sentRequests.filter(element => element._id === req.params.toUser)
+          console.log('toUser.connectionRequests before delete: ', ...toUser.connectionRequests)
+          // the user that recieved the requestm delete from their connection requests
+          toUser.connectionRequests = toUser.connectionRequests.filter(element => element.fromUser._id.toString() !== req.params.fromUser)
+          // the user that sent the request, delete from their sentRequests.
+          fromUser.sentRequests = fromUser.sentRequests.filter(element => element.toUser._id.toString() !== req.params.toUser)
+          console.log('toUser.connectionRequests after delete: ', ...toUser.connectionRequests)
           toUser.save()
           fromUser.save()
           res.status(201).json({ message: 'friend request deleted' })
