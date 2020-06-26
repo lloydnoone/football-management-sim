@@ -58,7 +58,27 @@ function profile(req, res) {
     },
     {
       path: 'connectionRequests',
-      model: 'ConnectionRequest'
+      model: 'ConnectionRequest',
+      populate: [{
+        path: 'fromUser',
+        model: 'User'
+      },
+      {
+        path: 'toUser',
+        model: 'User'
+      }]
+    },
+    {
+      path: 'sentRequests',
+      model: 'ConnectionRequest',
+      populate: [{
+        path: 'fromUser',
+        model: 'User'
+      },
+      {
+        path: 'toUser',
+        model: 'User'
+      }]
     }])
     .then(user => {
       res.status(200).json(user)
