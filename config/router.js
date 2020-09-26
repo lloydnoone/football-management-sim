@@ -22,7 +22,7 @@ router.route('/register')
 router.route('/login')
   .post(auth.login)
 
-router.route('/profile')
+router.route('/context')
   .get(secureRoute, auth.profile)
 
 router.route('/users/:id')

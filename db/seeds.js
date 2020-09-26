@@ -7,9 +7,9 @@ const Club = require('../models/Club')
 mongoose.connect(
   dbURI,
   { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
-  (err, db) => {
+  (err) => {
     if (err) return console.log(err)
-    db.dropDatabase()
+    mongoose.connection.db.dropDatabase()
       .then(() => {
         return Club.create([
           {

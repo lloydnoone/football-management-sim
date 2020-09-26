@@ -99,12 +99,8 @@ function deleteRequest(req, res) {
         }])
         .then(toUser => {
           if (!toUser) return res.status(404).json({ message: 'toUser not found' })
-          console.log('toUser.connectionRequests before delete: ', ...toUser.connectionRequests)
-          // the user that recieved the requestm delete from their connection requests
           toUser.connectionRequests = toUser.connectionRequests.filter(element => element.fromUser._id.toString() !== req.params.fromUser)
-          // the user that sent the request, delete from their sentRequests.
           fromUser.sentRequests = fromUser.sentRequests.filter(element => element.toUser._id.toString() !== req.params.toUser)
-          console.log('toUser.connectionRequests after delete: ', ...toUser.connectionRequests)
           toUser.save()
           fromUser.save()
           res.status(201).json({ message: 'friend request deleted' })

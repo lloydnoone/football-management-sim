@@ -1,4 +1,7 @@
 CRUD users basket/wishlist items
+notifications page
+accept a request
+connections tab on profile
 
 //LOW PRIORITY
 delete references if needed
@@ -9,4 +12,6 @@ correct casing or url params
 possibly make a connections model
 update secure routes
 unpopulate uneccesary fields
+add connections in seed file
+search func
 

@@ -57,6 +57,10 @@ function profile(req, res) {
       model: 'User'
     },
     {
+      path: 'transfers',
+      model: 'Transfer'
+    },
+    {
       path: 'connectionRequests',
       model: 'ConnectionRequest',
       populate: [{
@@ -79,7 +83,12 @@ function profile(req, res) {
         path: 'toUser',
         model: 'User'
       }]
-    }])
+    },
+    {
+      path: 'playerData.currentClub',
+      model: 'Club'
+    }
+    ])
     .then(user => {
       res.status(200).json(user)
     })
